@@ -17,14 +17,16 @@ const ArticleList: React.FC<ArticleListProps> = ({ keyword }) => {
 
 	return (
 		<div>
-			<h1>Top Headlines</h1>
-			<ul>
+			<ul className='news-list'>
 				{(data as Article[])?.map((article: Article) => (
-					<li key={article.url}>
+					<li
+						key={article.url}
+						className='news-item'
+					>
 						<Link to={`/article/${encodeURIComponent(article.url)}`}>
-							<h2>{article.title}</h2>
+							<h2 className='title'>{article.title}</h2>
 						</Link>
-						<p>{article.description}</p>
+						<p className='description'>{article.description}</p>
 					</li>
 				))}
 			</ul>

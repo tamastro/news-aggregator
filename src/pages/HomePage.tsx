@@ -8,7 +8,7 @@ const Home: React.FC = () => {
 	return (
 		<div>
 			<SearchBar onSearch={setKeyword} />
-			{/* <FilterPanel /> */}
+			<FilterPanel />
 			<ArticleList keyword={keyword} />
 		</div>
 	);

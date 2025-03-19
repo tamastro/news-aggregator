@@ -16,7 +16,6 @@ const FilterPanel: React.FC = () => {
 
 	return (
 		<div>
-			<h3>Filter by Source</h3>
 			<label>
 				<input
 					type='checkbox'
