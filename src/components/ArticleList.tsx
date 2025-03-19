@@ -1,17 +1,22 @@
 import React from 'react';
-import { useArticles } from '../hooks/useArticles';
-import { Article } from '../services/newsApi';
+import { Article } from '../types/Atricles';
 import { Link } from 'react-router-dom';
 import Loading from './Loading';
 import Error from './Error';
 
 type ArticleListProps = {
-	keyword: string;
+	isLoading: boolean;
+	isError: boolean;
+	data: Article[];
+	error: any;
 };
 
-const ArticleList: React.FC<ArticleListProps> = ({ keyword }) => {
-	const { data, isLoading, isError, error } = useArticles(keyword);
-
+const ArticleList: React.FC<ArticleListProps> = ({
+	data,
+	isLoading,
+	isError,
+	error,
+}) => {
 	if (isLoading) return <Loading />;
 	if (isError) return <Error message={(error as Error).message} />;
 

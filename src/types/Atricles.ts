@@ -5,4 +5,5 @@ export interface Article {
 	source: string;
 	publishedAt: string;
 	category: string;
+	author: string;
 }

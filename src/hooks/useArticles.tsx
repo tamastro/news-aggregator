@@ -1,9 +1,30 @@
 import { useQuery } from '@tanstack/react-query';
-import { fetchArticles, Article } from '../services/newsApi';
+import {
+	fetchNewsAPIArticles,
+	fetchGuardianArticles,
+	Article,
+} from '../services/newsApi';
 
-export const useArticles = (keyword: string = '') => {
+export const useFilteredArticles = (
+	date: string,
+	category: string,
+	source: string,
+	keyword: string,
+) => {
+	const fetchFilteredArticles = async () => {
+		if (source === 'newsApi') {
+			return fetchNewsAPIArticles(category, date, keyword);
+		} else if (source === 'guardian') {
+			return fetchGuardianArticles(category, date, keyword);
+		} else if (source === 'source3') {
+			return fetchNewsAPIArticles(category, date, keyword);
+		} else {
+			return fetchNewsAPIArticles(category, date, keyword);
+		}
+	};
+
 	return useQuery<Article[], Error>({
-		queryKey: ['articles', keyword],
-		queryFn: () => fetchArticles(keyword),
+		queryKey: ['filteredArticles', date, category, source],
+		queryFn: fetchFilteredArticles,
 	});
 };
