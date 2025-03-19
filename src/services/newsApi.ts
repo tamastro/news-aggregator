@@ -92,34 +92,11 @@ export const fetchNewsAPIArticles = async (
 			q: keyword,
 			country: 'us',
 			apiKey: API_KEY,
+			category,
 		},
 	});
 	const data = response.data as { articles: newsAPIArticle[] };
 	return data.articles;
-};
-
-export const fetchArticleByURL = async (
-	url: string,
-): Promise<newsAPIArticle> => {
-	// Mock implementation for testing purposes
-	const mockArticles = [
-		{
-			source: { id: 'abc-news', name: 'ABC News' },
-			author: 'John Doe',
-			title: 'Test Article 1',
-			description: 'This is a test article.',
-			url: 'https://example.com/article1',
-			urlToImage: 'https://example.com/image1.jpg',
-			publishedAt: '2023-10-01T12:00:00Z',
-			content: 'This is the content of the test article.',
-		},
-	];
-
-	const article = mockArticles.find((a) => a.url === url);
-	if (!article) {
-		throw new Error('Article not found');
-	}
-	return article;
 };
 
 export const fetchGuardianArticles = async (
@@ -130,6 +107,7 @@ export const fetchGuardianArticles = async (
 	const response = await axios.get('https://content.guardianapis.com/search', {
 		params: {
 			q: keyword,
+			section: category,
 			'api-key': 'de041d55-bade-4973-a869-ab18818b0f4d',
 			'show-fields': 'all',
 		},

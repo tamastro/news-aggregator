@@ -7,8 +7,8 @@ import {
 import { Article } from '../types/Atricles';
 
 export const useFilteredArticles = (
-	date: string,
 	category: string,
+	date: string,
 	source: string,
 	keyword: string,
 ) => {

@@ -17,18 +17,25 @@ const Home: React.FC = () => {
 		keyword,
 	);
 
-	const onFilterChanged = (newSource: string) => {
+	const onSourceChanged = (newSource: string) => {
 		setSource(newSource);
+	};
+
+	const onCategoryChanged = (newCategory: string) => {
+		setCategory(newCategory);
 	};
 
 	useEffect(() => {
 		refetch();
-	}, [source]);
+	}, [source, category]);
 
 	return (
 		<div>
 			<SearchBar onSearch={setKeyword} />
-			<FilterPanel onFilterChange={onFilterChanged} />
+			<FilterPanel
+				onSourceChanged={onSourceChanged}
+				onCategoryChanged={onCategoryChanged}
+			/>
 			<ArticleList
 				data={data}
 				isLoading={isLoading}
