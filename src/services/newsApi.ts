@@ -1,5 +1,4 @@
 import axios from 'axios';
-import Article from '../pages/ArticlePage';
 
 const API_KEY = '10abd195939846a9a6e3bc79f125cedc';
 const BASE_URL = 'https://newsapi.org/v2';
@@ -31,6 +30,56 @@ export interface GuardianArticle {
 	pillarId: string;
 	pillarName: string;
 	fields: any[];
+}
+
+interface NewsResponse {
+	status: string;
+	copyright: string;
+	section: string;
+	last_updated: string;
+	num_results: number;
+	results: NewsArticle[];
+}
+
+interface NewsArticle {
+	uri: string;
+	url: string;
+	id: number;
+	asset_id: number;
+	source: string;
+	published_date: string;
+	updated: string;
+	section: string;
+	subsection: string;
+	nytdsection: string;
+	adx_keywords: string;
+	column: null | string;
+	byline: string;
+	type: string;
+	title: string;
+	abstract: string;
+	des_facet: string[];
+	org_facet: string[];
+	per_facet: string[];
+	geo_facet: string[];
+	media: Media[];
+	eta_id: number;
+}
+
+interface Media {
+	type: string;
+	subtype: string;
+	caption: string;
+	copyright: string;
+	approved_for_syndication: number;
+	'media-metadata': MediaMetadata[];
+}
+
+interface MediaMetadata {
+	url: string;
+	format: string;
+	height: number;
+	width: number;
 }
 
 export const fetchNewsAPIArticles = async (
@@ -99,6 +148,38 @@ export const fetchGuardianArticles = async (
 		tempArticle.url = article.fields.shortUrl;
 		return tempArticle;
 	});
-	console.log(data);
+	return data;
+};
+
+export const fetchNewwYorkNews = async (
+	category: string,
+	date: string,
+	keyword: string,
+): Promise<NewsResponse | null> => {
+	const apiKey = '5jc75X3YDaOVj5GiAJXoN3MGmGFYfmcr';
+	const baseUrl = 'https://api.nytimes.com/svc/search/v2/articlesearch.json';
+
+	const params = new URLSearchParams({
+		q: keyword,
+		fq: category,
+		'api-key': apiKey,
+	});
+
+	const response = await axios.get<NewsResponse>(
+		`${baseUrl}?${params.toString()}`,
+	);
+	const data = response.data.response.docs.map((article) => {
+		const tempArticle = {
+			title: '',
+			description: '',
+			author: '',
+			url: '',
+		};
+		tempArticle.title = article.headline.main;
+		tempArticle.description = article.abstract;
+		tempArticle.author = article.byline.original;
+		tempArticle.url = article.uri;
+		return tempArticle;
+	});
 	return data;
 };

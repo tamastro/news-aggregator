@@ -16,7 +16,7 @@ const FilterPanel: React.FC<FilterPanelProps> = ({ onFilterChange }) => {
 				<select onChange={(e) => handleSourceChange(e.target.value)}>
 					<option value='newsApi'>news API</option>
 					<option value='guardian'>The Guardian</option>
-					<option value='source3'>Source 3</option>
+					<option value='newYorkTimes'>New York Times</option>
 				</select>
 			</label>
 			{/* Add more sources, categories, and authors as needed */}

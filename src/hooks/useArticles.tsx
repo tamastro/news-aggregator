@@ -2,8 +2,9 @@ import { useQuery } from '@tanstack/react-query';
 import {
 	fetchNewsAPIArticles,
 	fetchGuardianArticles,
-	Article,
+	fetchNewwYorkNews,
 } from '../services/newsApi';
+import { Article } from '../types/Atricles';
 
 export const useFilteredArticles = (
 	date: string,
@@ -16,8 +17,8 @@ export const useFilteredArticles = (
 			return fetchNewsAPIArticles(category, date, keyword);
 		} else if (source === 'guardian') {
 			return fetchGuardianArticles(category, date, keyword);
-		} else if (source === 'source3') {
-			return fetchNewsAPIArticles(category, date, keyword);
+		} else if (source === 'newYorkTimes') {
+			return fetchNewwYorkNews(category, date, keyword);
 		} else {
 			return fetchNewsAPIArticles(category, date, keyword);
 		}
