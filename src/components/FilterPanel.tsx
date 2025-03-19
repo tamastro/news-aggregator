@@ -1,47 +1,57 @@
 import React, { useState } from 'react';
 
+type dateRangeType = {
+	startDate: Date | null;
+	endDate: Date | null;
+};
+
 type FilterPanelProps = {
 	onSourceChanged: (newSource: string) => void;
 	onCategoryChanged: (newCategory: string) => void;
 	onDateRangeChange: (startDate: Date | null, endDate: Date | null) => void;
+	onResetFilter: () => void;
+	category: string;
+	source: string;
 };
 
 const FilterPanel: React.FC<FilterPanelProps> = ({
 	onSourceChanged,
 	onCategoryChanged,
 	onDateRangeChange,
+	onResetFilter,
+	category,
+	source,
 }) => {
 	const [startDate, setStartDate] = useState<Date | null>(null);
 	const [endDate, setEndDate] = useState<Date | null>(null);
 
 	const handleDateChange = (
 		event: React.ChangeEvent<HTMLInputElement>,
-		type: 'start' | 'end',
+		type: 'start' | 'end' | 'reset',
 	) => {
 		const selectedDate = new Date(event.target.value);
-		if (type === 'start') {
-			setStartDate(selectedDate);
-			if (endDate && selectedDate > endDate) {
-				setEndDate(selectedDate);
-			}
-			onDateRangeChange(selectedDate, endDate);
-		} else {
-			setEndDate(selectedDate);
-			if (startDate && selectedDate < startDate) {
+		switch (type) {
+			case 'start':
 				setStartDate(selectedDate);
-			}
-			onDateRangeChange(startDate, selectedDate);
+				if (endDate && selectedDate > endDate) {
+					setEndDate(selectedDate);
+				}
+				onDateRangeChange(selectedDate, endDate);
+				break;
+			case 'end':
+				setEndDate(selectedDate);
+				if (startDate && selectedDate < startDate) {
+					setStartDate(selectedDate);
+				}
+				onDateRangeChange(startDate, selectedDate);
+				break;
 		}
 	};
-	const handleFilterChange = (data: string, target: string) => {
-		switch (target) {
-			case 'source':
-				onSourceChanged(data);
-				break;
-			case 'category':
-				onCategoryChanged(data);
-				break;
-		}
+
+	const handleReset = () => {
+		setEndDate(null);
+		setStartDate(null);
+		onResetFilter();
 	};
 
 	return (
@@ -49,7 +59,8 @@ const FilterPanel: React.FC<FilterPanelProps> = ({
 			<div>
 				<label>
 					<select
-						onChange={(e) => handleFilterChange(e.target.value, 'source')}
+						value={source}
+						onChange={(e) => onSourceChanged(e.target.value)}
 					>
 						<option value='newsApi'>news API</option>
 						<option value='guardian'>The Guardian</option>
@@ -60,8 +71,8 @@ const FilterPanel: React.FC<FilterPanelProps> = ({
 			<div>
 				<label>
 					<select
-						onChange={(e) => handleFilterChange(e.target.value, 'category')}
-						defaultValue={''}
+						value={category}
+						onChange={(e) => onCategoryChanged(e.target.value)}
 					>
 						<option value='general'>General</option>
 						<option value='economy'>Economy</option>
@@ -94,6 +105,7 @@ const FilterPanel: React.FC<FilterPanelProps> = ({
 					/>
 				</label>
 			</div>
+			<button onClick={() => handleReset()}>Reset</button>
 		</>
 	);
 };

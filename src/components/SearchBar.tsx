@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 
 interface SearchBarProps {
 	onSearch: (keyword: string) => void;
+	query: string;
 }
 
 const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
