@@ -5,6 +5,8 @@ import ArticlePage from './pages/ArticlePage';
 import Header from './components/Header';
 import Footer from './components/Foooter';
 import './App.css';
+import 'react-date-range/dist/styles.css';
+import 'react-date-range/dist/theme/default.css';
 
 const App: React.FC = () => {
 	return (

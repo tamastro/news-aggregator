@@ -7,12 +7,27 @@ import FilterPanel from '../components/FilterPanel';
 const Home: React.FC = () => {
 	const [keyword, setKeyword] = useState('');
 	const [category, setCategory] = useState('');
-	const [newsDate, setNewsDat] = useState('');
+	const [newsDate, setNewsDate] = useState('');
 	const [source, setSource] = useState('');
+
+	const [dateRange, setDateRange] = useState<{
+		startDate: Date | null;
+		endDate: Date | null;
+	}>({
+		startDate: null,
+		endDate: null,
+	});
+
+	const handleDateRangeChange = (
+		startDate: Date | null,
+		endDate: Date | null,
+	) => {
+		setDateRange({ startDate, endDate });
+	};
 
 	const { data, isLoading, isError, error, refetch } = useFilteredArticles(
 		category,
-		newsDate,
+		dateRange,
 		source,
 		keyword,
 	);
@@ -27,7 +42,7 @@ const Home: React.FC = () => {
 
 	useEffect(() => {
 		refetch();
-	}, [source, category]);
+	}, [source, category, keyword]);
 
 	return (
 		<div>
@@ -35,6 +50,7 @@ const Home: React.FC = () => {
 			<FilterPanel
 				onSourceChanged={onSourceChanged}
 				onCategoryChanged={onCategoryChanged}
+				onDateRangeChange={handleDateRangeChange}
 			/>
 			<ArticleList
 				data={data}

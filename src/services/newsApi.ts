@@ -1,6 +1,7 @@
 import axios from 'axios';
+import moment from 'moment';
 
-const API_KEY = '10abd195939846a9a6e3bc79f125cedc';
+const API_KEY = '8001d4a5c77f4e59b899ae5d6ea84865';
 const BASE_URL = 'https://newsapi.org/v2';
 
 export interface newsAPIArticle {
@@ -84,15 +85,20 @@ interface MediaMetadata {
 
 export const fetchNewsAPIArticles = async (
 	category: string,
-	date: string,
+	date: {
+		startDate: Date | null;
+		endDate: Date | null;
+	},
 	keyword: string,
 ): Promise<newsAPIArticle[]> => {
-	const response = await axios.get(`${BASE_URL}/top-headlines`, {
+	const response = await axios.get(`${BASE_URL}/everything`, {
 		params: {
-			q: keyword,
-			country: 'us',
+			q: `${keyword}${category ? `+${category}` : ''}`, //because the apii does not have category params
 			apiKey: API_KEY,
-			category,
+			searchIn: `title${category ? ',content' : ''}`,
+			qInTitle: 'BBC News',
+			from: date.startDate,
+			to: date.endDate,
 		},
 	});
 	const data = response.data as { articles: newsAPIArticle[] };
@@ -101,16 +107,29 @@ export const fetchNewsAPIArticles = async (
 
 export const fetchGuardianArticles = async (
 	category: string,
-	date: string,
+	date: {
+		startDate: Date | null;
+		endDate: Date | null;
+	},
 	keyword: string,
 ): Promise<GuardianArticle[]> => {
 	const response = await axios.get('https://content.guardianapis.com/search', {
-		params: {
-			q: keyword,
-			section: category,
-			'api-key': 'de041d55-bade-4973-a869-ab18818b0f4d',
-			'show-fields': 'all',
-		},
+		params: category
+			? {
+					q: keyword,
+					section: category,
+					'api-key': 'de041d55-bade-4973-a869-ab18818b0f4d',
+					'show-fields': 'all',
+					'from-date': date.startDate,
+					'to-date': date.endDate,
+			  }
+			: {
+					q: keyword,
+					'api-key': 'de041d55-bade-4973-a869-ab18818b0f4d',
+					'show-fields': 'all',
+					'from-date': date.startDate,
+					'to-date': date.endDate,
+			  },
 	});
 	const data = response.data.response.results.map((article) => {
 		const tempArticle = {
@@ -119,7 +138,6 @@ export const fetchGuardianArticles = async (
 			author: '',
 			url: '',
 		};
-		console.log(article.fields);
 		tempArticle.title = article.fields.headline;
 		tempArticle.description = article.fields.trailText;
 		tempArticle.author = article.fields.byline ? article.fields.byline : '-';
@@ -131,21 +149,34 @@ export const fetchGuardianArticles = async (
 
 export const fetchNewwYorkNews = async (
 	category: string,
-	date: string,
+	date: {
+		startDate: Date | null;
+		endDate: Date | null;
+	},
 	keyword: string,
 ): Promise<NewsResponse | null> => {
 	const apiKey = '5jc75X3YDaOVj5GiAJXoN3MGmGFYfmcr';
 	const baseUrl = 'https://api.nytimes.com/svc/search/v2/articlesearch.json';
 
-	const params = new URLSearchParams({
+	const baseParams = {
 		q: keyword,
 		fq: category,
 		'api-key': apiKey,
-	});
+	};
 
-	const response = await axios.get<NewsResponse>(
-		`${baseUrl}?${params.toString()}`,
-	);
+	const dateParams = {
+		begin_date: moment(date.startDate).format('YYYYMMDD'),
+		end_date: moment(date.endDate).format('YYYYMMDD'),
+	};
+
+	const withDateParams = {
+		...baseParams,
+		...dateParams,
+	};
+
+	const response = await axios.get<NewsResponse>(baseUrl, {
+		params: date.startDate && date.endDate ? withDateParams : baseParams,
+	});
 	const data = response.data.response.docs.map((article) => {
 		const tempArticle = {
 			title: '',
