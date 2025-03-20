@@ -3,11 +3,13 @@ import ArticleList from '../components/ArticleList';
 import SearchBar from '../components/SearchBar';
 import { useFilteredArticles } from '../hooks/useArticles';
 import FilterPanel from '../components/FilterPanel';
+import FilterModal from '../components/FilterModal';
 
 const Home: React.FC = () => {
 	const [keyword, setKeyword] = useState('');
 	const [category, setCategory] = useState('');
 	const [source, setSource] = useState('');
+	const [isModalOpen, setIsModalOpen] = useState(false);
 
 	const [dateRange, setDateRange] = useState<{
 		startDate: Date | null;
@@ -30,6 +32,8 @@ const Home: React.FC = () => {
 		source,
 		keyword,
 	);
+
+	const toggleModal = () => setIsModalOpen(!isModalOpen);
 
 	const onSourceChanged = (newSource: string) => {
 		setSource(newSource);
@@ -55,6 +59,11 @@ const Home: React.FC = () => {
 
 	return (
 		<div>
+			<button onClick={toggleModal}>Open Filters</button>
+			<FilterModal
+				isOpen={isModalOpen}
+				onRequestClose={() => setIsModalOpen(false)}
+			/>
 			<SearchBar
 				onSearch={setKeyword}
 				query={keyword}

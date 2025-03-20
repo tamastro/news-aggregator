@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { camelCaseToTitleCase } from '../helper/camelCaseToString';
 
 type dateRangeType = {
 	startDate: Date | null;
@@ -62,9 +63,14 @@ const FilterPanel: React.FC<FilterPanelProps> = ({
 						value={source}
 						onChange={(e) => onSourceChanged(e.target.value)}
 					>
-						<option value='newsApi'>news API</option>
-						<option value='guardian'>The Guardian</option>
-						<option value='newYorkTimes'>New York Times</option>
+						{['newsApi', 'guardian', 'newYorkTimes'].map((source) => (
+							<option
+								key={source}
+								value={source}
+							>
+								{camelCaseToTitleCase(source)}
+							</option>
+						))}
 					</select>
 				</label>
 			</div>
@@ -74,16 +80,25 @@ const FilterPanel: React.FC<FilterPanelProps> = ({
 						value={category}
 						onChange={(e) => onCategoryChanged(e.target.value)}
 					>
-						<option value='general'>General</option>
-						<option value='economy'>Economy</option>
-						<option value='politics'>Politics</option>
-						<option value='business'>Business</option>
-						<option value='technology'>Technology</option>
-						<option value='health'>Health</option>
-						<option value='science'>Science</option>
-						<option value='entertainment'>Entertainment</option>
-						<option value='sports'>Sports</option>
-						<option value='environment'>Environment</option>
+						{[
+							'general',
+							'economy',
+							'politics',
+							'business',
+							'technology',
+							'health',
+							'science',
+							'sports',
+							'entertainment',
+							'environment',
+						].map((category) => (
+							<option
+								key={category}
+								value={category}
+							>
+								{camelCaseToTitleCase(category)}
+							</option>
+						))}
 					</select>
 				</label>
 			</div>
