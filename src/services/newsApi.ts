@@ -1,87 +1,14 @@
 import axios from 'axios';
 import moment from 'moment';
+import { Article } from '../types/atricles';
+import {
+	ArticleResponse,
+	GuardianArticle,
+	newsAPIArticle,
+} from '../types/apiResponse';
 
 const API_KEY = '8001d4a5c77f4e59b899ae5d6ea84865';
 const BASE_URL = 'https://newsapi.org/v2';
-
-export interface newsAPIArticle {
-	source: {
-		id: string | null;
-		name: string;
-	};
-	author: string | null;
-	title: string;
-	description: string | null;
-	url: string;
-	urlToImage: string | null;
-	publishedAt: string;
-	content: string | null;
-}
-
-export interface GuardianArticle {
-	id: string;
-	type: string;
-	sectionId: string;
-	sectionName: string;
-	webPublicationDate: string;
-	webTitle: string;
-	webUrl: string;
-	apiUrl: string;
-	isHosted: boolean;
-	pillarId: string;
-	pillarName: string;
-	fields: any[];
-}
-
-interface NewsResponse {
-	status: string;
-	copyright: string;
-	section: string;
-	last_updated: string;
-	num_results: number;
-	results: NewsArticle[];
-}
-
-interface NewsArticle {
-	uri: string;
-	url: string;
-	id: number;
-	asset_id: number;
-	source: string;
-	published_date: string;
-	updated: string;
-	section: string;
-	subsection: string;
-	nytdsection: string;
-	adx_keywords: string;
-	column: null | string;
-	byline: string;
-	type: string;
-	title: string;
-	abstract: string;
-	des_facet: string[];
-	org_facet: string[];
-	per_facet: string[];
-	geo_facet: string[];
-	media: Media[];
-	eta_id: number;
-}
-
-interface Media {
-	type: string;
-	subtype: string;
-	caption: string;
-	copyright: string;
-	approved_for_syndication: number;
-	'media-metadata': MediaMetadata[];
-}
-
-interface MediaMetadata {
-	url: string;
-	format: string;
-	height: number;
-	width: number;
-}
 
 export const fetchNewsAPIArticles = async (
 	category: string,
@@ -91,7 +18,7 @@ export const fetchNewsAPIArticles = async (
 	},
 	keyword: string,
 	author: string,
-): Promise<newsAPIArticle[]> => {
+): Promise<Article[]> => {
 	let query = keyword;
 	if (category) {
 		query += `+${category}`;
@@ -109,8 +36,18 @@ export const fetchNewsAPIArticles = async (
 			to: date.endDate,
 		},
 	});
-	const data = response.data as { articles: newsAPIArticle[] };
-	return data.articles;
+	const data = (response.data as { articles: newsAPIArticle[] }).articles.map(
+		(article) => {
+			const tempArticle = {
+				title: article.title,
+				description: article.description || '',
+				url: article.url,
+				author: article.url,
+			};
+			return tempArticle;
+		},
+	);
+	return data;
 };
 
 export const fetchGuardianArticles = async (
@@ -121,7 +58,7 @@ export const fetchGuardianArticles = async (
 	},
 	keyword: string,
 	author: string,
-): Promise<GuardianArticle[]> => {
+): Promise<Article[]> => {
 	const response = await axios.get('https://content.guardianapis.com/search', {
 		params: category
 			? {
@@ -140,7 +77,9 @@ export const fetchGuardianArticles = async (
 					'to-date': date.endDate,
 			  },
 	});
-	const data = response.data.response.results.map((article) => {
+	const data = (
+		response.data as { response: { results: GuardianArticle[] } }
+	).response.results.map((article) => {
 		const tempArticle = {
 			title: '',
 			description: '',
@@ -156,7 +95,7 @@ export const fetchGuardianArticles = async (
 	return data;
 };
 
-export const fetchNewwYorkNews = async (
+export const fetchNewYorkNews = async (
 	category: string,
 	date: {
 		startDate: Date | null;
@@ -164,7 +103,7 @@ export const fetchNewwYorkNews = async (
 	},
 	keyword: string,
 	author: string,
-): Promise<NewsResponse | null> => {
+): Promise<Article[] | null> => {
 	const apiKey = '5jc75X3YDaOVj5GiAJXoN3MGmGFYfmcr';
 	const baseUrl = 'https://api.nytimes.com/svc/search/v2/articlesearch.json';
 
@@ -184,7 +123,7 @@ export const fetchNewwYorkNews = async (
 		...dateParams,
 	};
 
-	const response = await axios.get<NewsResponse>(baseUrl, {
+	const response = await axios.get<ArticleResponse>(baseUrl, {
 		params: date.startDate && date.endDate ? withDateParams : baseParams,
 	});
 	const data = response.data.response.docs.map((article) => {

@@ -1,11 +1,6 @@
 import React, { useState } from 'react';
 import { camelCaseToTitleCase } from '../helper/camelCaseToString';
 
-type dateRangeType = {
-	startDate: Date | null;
-	endDate: Date | null;
-};
-
 type FilterPanelProps = {
 	onSourceChanged: (newSource: string) => void;
 	onCategoryChanged: (newCategory: string) => void;

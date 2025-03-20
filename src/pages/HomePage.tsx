@@ -5,6 +5,7 @@ import { useFilteredArticles } from '../hooks/useArticles';
 import FilterPanel from '../components/FilterPanel';
 import FilterModal from '../components/FilterModal';
 import { usePreferences } from '../contexts/PreferencesContext';
+import { Article } from '../types/atricles';
 
 const Home: React.FC = () => {
 	const { preferences } = usePreferences();
@@ -80,7 +81,7 @@ const Home: React.FC = () => {
 				source={source}
 			/>
 			<ArticleList
-				data={data}
+				data={data as Article[]}
 				isLoading={isLoading}
 				isError={isError}
 				error={error}
