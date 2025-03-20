@@ -19,15 +19,23 @@ const FilterModal: React.FC<FilterModalProps> = ({
 	const [selectedCategory, setSelectedCategory] = useState<string | null>(
 		preferences.category || null,
 	);
+	const [selectedAuthor, setSelectedAuthor] = useState<string | null>(
+		preferences.author || null,
+	);
 
 	const handleSourceChange = (source: string) => {
 		setSelectedSource(source);
-		setPreferences({ ...preferences, source: source }); // Update preferences with a single source
+		setPreferences({ ...preferences, source: source });
 	};
 
 	const handleCategoryChange = (category: string) => {
 		setSelectedCategory(category);
-		setPreferences({ ...preferences, category: category }); // Update preferences with a single category
+		setPreferences({ ...preferences, category: category });
+	};
+
+	const handleAuthorChange = (author: string) => {
+		setSelectedAuthor(author);
+		setPreferences({ ...preferences, author: author });
 	};
 
 	return (
@@ -80,6 +88,14 @@ const FilterModal: React.FC<FilterModalProps> = ({
 						</option>
 					))}
 				</select>
+			</div>
+
+			<div>
+				<h3>Author</h3>
+				<input
+					value={selectedAuthor || ''}
+					onChange={(e) => handleAuthorChange(e.target.value)}
+				/>
 			</div>
 			<button onClick={onRequestClose}>Close</button>
 		</Modal>

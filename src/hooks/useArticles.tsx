@@ -14,16 +14,17 @@ export const useFilteredArticles = (
 	},
 	source: string,
 	keyword: string,
+	author: string,
 ) => {
 	const fetchFilteredArticles = async () => {
 		if (source === 'newsApi') {
-			return fetchNewsAPIArticles(category, date, keyword);
+			return fetchNewsAPIArticles(category, date, keyword, author);
 		} else if (source === 'guardian') {
-			return fetchGuardianArticles(category, date, keyword);
+			return fetchGuardianArticles(category, date, keyword, author);
 		} else if (source === 'newYorkTimes') {
-			return fetchNewwYorkNews(category, date, keyword);
+			return fetchNewwYorkNews(category, date, keyword, author);
 		} else {
-			return fetchNewsAPIArticles(category, date, keyword);
+			return fetchNewsAPIArticles(category, date, keyword, author);
 		}
 	};
 

@@ -33,6 +33,7 @@ const Home: React.FC = () => {
 		dateRange,
 		source,
 		keyword,
+		preferences.author,
 	);
 
 	const toggleModal = () => setIsModalOpen(!isModalOpen);

@@ -90,10 +90,18 @@ export const fetchNewsAPIArticles = async (
 		endDate: Date | null;
 	},
 	keyword: string,
+	author: string,
 ): Promise<newsAPIArticle[]> => {
+	let query = keyword;
+	if (category) {
+		query += `+${category}`;
+	}
+	if (author) {
+		query += `+${author.replace(/\s+/g, '+')}`;
+	}
 	const response = await axios.get(`${BASE_URL}/everything`, {
 		params: {
-			q: `${keyword}${category ? `+${category}` : ''}`, //because the apii does not have category params
+			q: query, //because the apii does not have category params
 			apiKey: API_KEY,
 			searchIn: `title${category ? ',content' : ''}`,
 			qInTitle: 'BBC News',
@@ -112,6 +120,7 @@ export const fetchGuardianArticles = async (
 		endDate: Date | null;
 	},
 	keyword: string,
+	author: string,
 ): Promise<GuardianArticle[]> => {
 	const response = await axios.get('https://content.guardianapis.com/search', {
 		params: category
@@ -135,7 +144,7 @@ export const fetchGuardianArticles = async (
 		const tempArticle = {
 			title: '',
 			description: '',
-			author: '',
+			author: author,
 			url: '',
 		};
 		tempArticle.title = article.fields.headline;
@@ -154,12 +163,13 @@ export const fetchNewwYorkNews = async (
 		endDate: Date | null;
 	},
 	keyword: string,
+	author: string,
 ): Promise<NewsResponse | null> => {
 	const apiKey = '5jc75X3YDaOVj5GiAJXoN3MGmGFYfmcr';
 	const baseUrl = 'https://api.nytimes.com/svc/search/v2/articlesearch.json';
 
 	const baseParams = {
-		q: keyword,
+		q: `${keyword}${author ? `+${author.replace(/\s+/g, '+')}` : ''}`,
 		fq: category,
 		'api-key': apiKey,
 	};
