@@ -7,8 +7,7 @@ A news aggregator application built with React.
 - **Responsive Design:** Optimized for various devices.
 - **State Management:** Using Context API for managing application state.
 - **Routing:** Using React Router for navigation.
-- **Styling:** Using styled-components for CSS-in-JS.
-- **API Handling:** Fetching news articles from NewsAPI.
+- **API Handling:** Fetching news articles using react query from 3 different news sources.
 
 ## Getting Started
 
