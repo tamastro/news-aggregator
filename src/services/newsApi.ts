@@ -42,7 +42,7 @@ export const fetchNewsAPIArticles = async (
 				title: article.title,
 				description: article.description || '',
 				url: article.url,
-				author: article.url,
+				author: article.author,
 			};
 			return tempArticle;
 		},
