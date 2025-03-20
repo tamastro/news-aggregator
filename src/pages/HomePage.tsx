@@ -7,7 +7,7 @@ import FilterModal from '../components/FilterModal';
 import { usePreferences } from '../contexts/PreferencesContext';
 
 const Home: React.FC = () => {
-	const { preferences, setPreferences } = usePreferences();
+	const { preferences } = usePreferences();
 	const [keyword, setKeyword] = useState('');
 	const [category, setCategory] = useState(preferences.category);
 	const [source, setSource] = useState(preferences.source);

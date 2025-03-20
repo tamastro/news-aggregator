@@ -8,7 +8,7 @@ type ArticleListProps = {
 	isLoading: boolean;
 	isError: boolean;
 	data: Article[];
-	error: any;
+	error: unknown;
 };
 
 const ArticleList: React.FC<ArticleListProps> = ({

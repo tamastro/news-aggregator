@@ -1,6 +1,6 @@
 # News Aggregator
 
-A news aggregator application built with React, featuring best practices for code organization, maintainability, and scalability.
+A news aggregator application built with React.
 
 ## Features
 
@@ -8,14 +8,13 @@ A news aggregator application built with React, featuring best practices for cod
 - **State Management:** Using Context API for managing application state.
 - **Routing:** Using React Router for navigation.
 - **Styling:** Using styled-components for CSS-in-JS.
-- **Testing:** Using Jest and React Testing Library for unit and integration tests.
 - **API Handling:** Fetching news articles from NewsAPI.
 
 ## Getting Started
 
 ### Prerequisites
 
-- Node.js and npm installed on your machine.
+- Node.js 20 and npm installed on your machine.
 
 ### Installation
 
@@ -30,21 +29,12 @@ A news aggregator application built with React, featuring best practices for cod
    npm install
    ```
 
-3. Set up environment variables:
-
-   Create a .env file in the root directory.
-   Add your NewsAPI key:
-
-   ```bash
-   REACT_APP_NEWS_API_KEY=your_news_api_key
-   ```
-
-4. Running the Application
+3. Running the Application
 
    Start the development server:
 
    ```bash
-   npm start
+   npm run dev
    ```
 
    Open your browser and navigate to http://localhost:3000.
@@ -74,11 +64,3 @@ docker run -p 3000:3000 news-aggregator
 ```
 
 3.  Open your browser and navigate to http://localhost:3000.
-
-## Testing
-
-Run the tests using Jest and React Testing Library:
-
-```bash
-npm test
-```
