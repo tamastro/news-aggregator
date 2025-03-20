@@ -14,20 +14,20 @@ const FilterModal: React.FC<FilterModalProps> = ({
 }) => {
 	const { preferences, setPreferences } = usePreferences();
 	const [selectedSource, setSelectedSource] = useState<string | null>(
-		preferences.sources[0] || null,
+		preferences.source || null,
 	);
 	const [selectedCategory, setSelectedCategory] = useState<string | null>(
-		preferences.categories[0] || null,
+		preferences.category || null,
 	);
 
 	const handleSourceChange = (source: string) => {
 		setSelectedSource(source);
-		setPreferences({ ...preferences, sources: [source] }); // Update preferences with a single source
+		setPreferences({ ...preferences, source: source }); // Update preferences with a single source
 	};
 
 	const handleCategoryChange = (category: string) => {
 		setSelectedCategory(category);
-		setPreferences({ ...preferences, categories: [category] }); // Update preferences with a single category
+		setPreferences({ ...preferences, category: category }); // Update preferences with a single category
 	};
 
 	return (

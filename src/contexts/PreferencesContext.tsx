@@ -1,9 +1,9 @@
 import React, { createContext, useContext, useState, ReactNode } from 'react';
 
 interface Preferences {
-	sources: string[];
-	categories: string[];
-	authors: string[];
+	source: string;
+	category: string;
+	author: string;
 }
 
 const PreferencesContext = createContext<{
@@ -15,9 +15,9 @@ export const PreferencesProvider: React.FC<{ children: ReactNode }> = ({
 	children,
 }) => {
 	const [preferences, setPreferences] = useState<Preferences>({
-		sources: [],
-		categories: [],
-		authors: [],
+		source: 'newsApi',
+		category: 'general',
+		author: '',
 	});
 
 	return (

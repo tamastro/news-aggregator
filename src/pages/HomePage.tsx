@@ -4,11 +4,13 @@ import SearchBar from '../components/SearchBar';
 import { useFilteredArticles } from '../hooks/useArticles';
 import FilterPanel from '../components/FilterPanel';
 import FilterModal from '../components/FilterModal';
+import { usePreferences } from '../contexts/PreferencesContext';
 
 const Home: React.FC = () => {
+	const { preferences, setPreferences } = usePreferences();
 	const [keyword, setKeyword] = useState('');
-	const [category, setCategory] = useState('');
-	const [source, setSource] = useState('');
+	const [category, setCategory] = useState(preferences.category);
+	const [source, setSource] = useState(preferences.source);
 	const [isModalOpen, setIsModalOpen] = useState(false);
 
 	const [dateRange, setDateRange] = useState<{
@@ -45,12 +47,12 @@ const Home: React.FC = () => {
 
 	const resetFilter = () => {
 		setKeyword('');
-		setCategory('');
+		setCategory(preferences.category);
 		setDateRange({
 			startDate: null,
 			endDate: null,
 		});
-		setSource('');
+		setSource(preferences.source);
 	};
 
 	useEffect(() => {
@@ -59,7 +61,7 @@ const Home: React.FC = () => {
 
 	return (
 		<div>
-			<button onClick={toggleModal}>Open Filters</button>
+			<button onClick={toggleModal}>Open Preferences Filter</button>
 			<FilterModal
 				isOpen={isModalOpen}
 				onRequestClose={() => setIsModalOpen(false)}

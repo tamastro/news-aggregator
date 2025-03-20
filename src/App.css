@@ -94,3 +94,15 @@ body {
 	border: 1px solid #ccc;
 	border-radius: 4px;
 }
+
+.filter-panel {
+	display: flex;
+	justify-content: space-evenly;
+	flex-wrap: wrap;
+}
+
+@media (max-width: 768px) {
+	.filter-panel {
+		flex-direction: column;
+	}
+}

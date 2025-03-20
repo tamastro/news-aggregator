@@ -30,6 +30,7 @@ const ArticleList: React.FC<ArticleListProps> = ({
 					>
 						<Link to={`/article/${encodeURIComponent(article.url)}`}>
 							<h2 className='title'>{article.title}</h2>
+							<h6>`By {article.author}`</h6>
 						</Link>
 						<p className='description'>{article.description}</p>
 					</li>

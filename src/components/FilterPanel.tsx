@@ -56,9 +56,10 @@ const FilterPanel: React.FC<FilterPanelProps> = ({
 	};
 
 	return (
-		<>
+		<div className='filter-panel'>
 			<div>
 				<label>
+					News Source :
 					<select
 						value={source}
 						onChange={(e) => onSourceChanged(e.target.value)}
@@ -76,6 +77,7 @@ const FilterPanel: React.FC<FilterPanelProps> = ({
 			</div>
 			<div>
 				<label>
+					Category :
 					<select
 						value={category}
 						onChange={(e) => onCategoryChanged(e.target.value)}
@@ -104,15 +106,17 @@ const FilterPanel: React.FC<FilterPanelProps> = ({
 			</div>
 			<div className='date-range-picker'>
 				<label>
-					Start Date:
+					Start Date :
 					<input
 						type='date'
 						value={startDate ? startDate.toISOString().split('T')[0] : ''}
 						onChange={(e) => handleDateChange(e, 'start')}
 					/>
 				</label>
+			</div>
+			<div>
 				<label>
-					End Date:
+					End Date :
 					<input
 						type='date'
 						value={endDate ? endDate.toISOString().split('T')[0] : ''}
@@ -120,8 +124,8 @@ const FilterPanel: React.FC<FilterPanelProps> = ({
 					/>
 				</label>
 			</div>
-			<button onClick={() => handleReset()}>Reset</button>
-		</>
+			<button onClick={() => handleReset()}>Reset Filter</button>
+		</div>
 	);
 };
 
