@@ -4,7 +4,7 @@ import SearchBar from '../components/SearchBar';
 import { useFilteredArticles } from '../hooks/useArticles';
 import FilterPanel from '../components/FilterPanel';
 import FilterModal from '../components/FilterModal';
-import { usePreferences } from '../contexts/PreferencesContext';
+import { usePreferences } from '../hooks/usePreferences';
 import { Article } from '../types/atricles';
 
 const Home: React.FC = () => {

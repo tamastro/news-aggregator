@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Modal from 'react-modal';
 import { camelCaseToTitleCase } from '../helper/camelCaseToString';
-import { usePreferences } from '../contexts/PreferencesContext';
+import { usePreferences } from '../hooks/usePreferences';
 
 interface FilterModalProps {
 	isOpen: boolean;
