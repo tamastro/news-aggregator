@@ -13,7 +13,7 @@ A news aggregator application built with React.
 
 ### Prerequisites
 
-- Node.js 20 and npm installed on your machine.
+- Node.js 20 and docker installed on your machine.
 
 ### Installation
 
