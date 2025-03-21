@@ -7,9 +7,6 @@ import {
 	newsAPIArticle,
 } from '../types/apiResponse';
 
-const API_KEY = '8001d4a5c77f4e59b899ae5d6ea84865';
-const BASE_URL = 'https://newsapi.org/v2';
-
 export const fetchNewsAPIArticles = async (
 	category: string,
 	date: {
@@ -19,6 +16,8 @@ export const fetchNewsAPIArticles = async (
 	keyword: string,
 	author: string,
 ): Promise<Article[]> => {
+	const baseUrl = 'https://newsapi.org/v2';
+	const apiKey = '8001d4a5c77f4e59b899ae5d6ea84865';
 	let query = keyword;
 	if (category) {
 		query += `+${category}`;
@@ -26,10 +25,10 @@ export const fetchNewsAPIArticles = async (
 	if (author) {
 		query += `+${author.replace(/\s+/g, '+')}`;
 	}
-	const response = await axios.get(`${BASE_URL}/everything`, {
+	const response = await axios.get(`${baseUrl}/everything`, {
 		params: {
 			q: query, //because the apii does not have category params
-			apiKey: API_KEY,
+			apiKey: apiKey,
 			searchIn: `title${category ? ',content' : ''}`,
 			qInTitle: 'BBC News',
 			from: date.startDate,
@@ -42,7 +41,7 @@ export const fetchNewsAPIArticles = async (
 				title: article.title,
 				description: article.description || '',
 				url: article.url,
-				author: article.author,
+				author: article.author || '',
 			};
 			return tempArticle;
 		},
@@ -59,12 +58,14 @@ export const fetchGuardianArticles = async (
 	keyword: string,
 	author: string,
 ): Promise<Article[]> => {
-	const response = await axios.get('https://content.guardianapis.com/search', {
+	const baseUrl: string = 'https://content.guardianapis.com/search';
+	const apiKey: string = 'de041d55-bade-4973-a869-ab18818b0f4d';
+	const response = await axios.get(baseUrl, {
 		params: category
 			? {
 					q: keyword,
 					section: category,
-					'api-key': 'de041d55-bade-4973-a869-ab18818b0f4d',
+					'api-key': apiKey,
 					'show-fields': 'all',
 					'from-date': date.startDate,
 					'to-date': date.endDate,
@@ -104,8 +105,8 @@ export const fetchNewYorkNews = async (
 	keyword: string,
 	author: string,
 ): Promise<Article[] | null> => {
-	const apiKey = '5jc75X3YDaOVj5GiAJXoN3MGmGFYfmcr';
 	const baseUrl = 'https://api.nytimes.com/svc/search/v2/articlesearch.json';
+	const apiKey = '5jc75X3YDaOVj5GiAJXoN3MGmGFYfmcr';
 
 	const baseParams = {
 		q: `${keyword}${author ? `+${author.replace(/\s+/g, '+')}` : ''}`,

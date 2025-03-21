@@ -119,7 +119,12 @@ const FilterPanel: React.FC<FilterPanelProps> = ({
 					/>
 				</label>
 			</div>
-			<button onClick={() => handleReset()}>Reset Filter</button>
+			<button
+				className='reset-button'
+				onClick={() => handleReset()}
+			>
+				Reset Filter
+			</button>
 		</div>
 	);
 };

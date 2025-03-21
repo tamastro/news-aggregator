@@ -28,7 +28,7 @@ const ArticleList: React.FC<ArticleListProps> = ({
 						className='news-item'
 					>
 						<h2 className='title'>{article.title}</h2>
-						<h6>`By {article.author}`</h6>
+						<h6>By {article.author}</h6>
 						<p className='description'>{article.description}</p>
 					</li>
 				))}
